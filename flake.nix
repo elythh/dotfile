@@ -1,7 +1,69 @@
 {
   description = "Elyth's personal dotfile";
 
+  outputs =
+    inputs:
+    let
+      inherit (inputs) snowfall-lib;
+
+      lib = snowfall-lib.mkLib {
+        inherit inputs;
+        src = ./.;
+
+        snowfall = {
+          meta = {
+            name = "flake";
+            title = "flake";
+          };
+
+          namespace = "elyth";
+        };
+      };
+    in
+    lib.mkFlake {
+      channels-config = {
+        # allowBroken = true;
+        allowUnfree = true;
+      };
+      homes.modules = with inputs; [
+        stylix.homeManagerModules.stylix
+        nix-index-database.hmModules.nix-index
+        anyrun.homeManagerModules.default
+        spicetify.homeManagerModules.default
+        sops-nix.homeManagerModules.sops
+      ];
+
+      systems = {
+        modules = {
+          nixos = with inputs; [
+            home-manager.nixosModule
+            nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
+            grub2-themes.nixosModules.default
+            sops-nix.nixosModules.sops
+          ];
+        };
+      };
+
+      overlays = with inputs; [
+        nur.overlay
+        (_: prev: { zjstatus = inputs.zjstatus.packages.${prev.system}.default; })
+      ];
+
+      deploy = lib.mkDeploy { inherit (inputs) self; };
+
+      outputs-builder = channels: { formatter = channels.nixpkgs.nixfmt-rfc-style; };
+    };
+
   inputs = {
+    snowfall-lib.url = "github:snowfallorg/lib";
+    snowfall-lib.inputs.nixpkgs.follows = "nixpkgs";
+
+    snowfall-flake.url = "github:snowfallorg/flake";
+    snowfall-flake.inputs.nixpkgs.follows = "nixpkgs";
+
+    deploy-rs.url = "github:serokell/deploy-rs";
+    deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
+
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -15,8 +77,8 @@
     grub2-themes.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home-manager
-    hm.url = "github:nix-community/home-manager";
-    hm.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # secret management
     sops-nix.url = "github:Mic92/sops-nix";
@@ -68,38 +130,11 @@
     # My personal nixvim config
     nixvim.url = "github:elythh/nixvim/avante";
 
-    # Minecraft Servers
-    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    nix-index-database.url = "github:nix-community/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+
+    xdg-desktop-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
+    xdg-desktop-portal-hyprland.inputs.nixpkgs.follows = "nixpkgs";
+
   };
-
-  outputs =
-    inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64-linux" ];
-
-      imports = [
-        ./hosts
-        ./home
-        ./pre-commit-hooks.nix
-      ];
-
-      perSystem =
-        { config, pkgs, ... }:
-        {
-          devShells.default = pkgs.mkShell {
-            packages = [
-              pkgs.nixfmt-rfc-style
-              pkgs.git
-              pkgs.nh
-            ];
-            name = "dots";
-            DIRENV_LOG_FORMAT = "";
-            shellHook = ''
-              ${config.pre-commit.installationScript}
-            '';
-          };
-
-          formatter = pkgs.nixfmt-rfc-style;
-        };
-    };
 }
