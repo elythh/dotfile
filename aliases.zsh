@@ -1,7 +1,15 @@
 ##
 ## Aliases
 ##
-alias s="kitty +kitten ssh"
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g C='| wc -l'
+alias -g H='| head'
+alias -g L="| less"
+alias -g N="| /dev/null"
+alias -g S='| sort'
+alias -g G='| grep' # now you can do: ls foo G something
 alias grub-update='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias mtar='tar -zcvf' # mtar <archive_compress>
 alias utar='tar -zxvf' # utar <archive_decompress> <file_list>
@@ -261,3 +269,8 @@ kpf() {
   POD_NAME=$(kubectl "$@" get pod -l app="${APP}" -o jsonpath='{$.items[0].metadata.name}')
   kubectl "$@" port-forward "${POD_NAME}" "${PORT}:${PORT}"
 }
+
+alias tg='TERRAGRUNT_PROVIDER_CACHE=1 TERRAGRUNT_PROVIDER_CACHE_DIR=~/.terraform.d/plugin-cache/ TERRAGRUNT_TFPATH=terraform terragrunt'
+alias tginfo='TERRAGRUNT_PROVIDER_CACHE=1 TERRAGRUNT_PROVIDER_CACHE_DIR=~/.terraform.d/plugin-cache/ TERRAGRUNT_TFPATH=terraform terragrunt --terragrunt-debug'
+alias tgdebug='TERRAGRUNT_PROVIDER_CACHE=1 TERRAGRUNT_PROVIDER_CACHE_DIR=~/.terraform.d/plugin-cache/ TERRAGRUNT_TFPATH=terraform TF_LOG=DEBUG terragrunt --terragrunt-debug'
+alias w="wanda"

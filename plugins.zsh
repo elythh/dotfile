@@ -43,3 +43,6 @@ zinit ice from"gh-r" as"command"
 zinit light junegunn/fzf
 
 zini light wfxr/forgit
+zini light wintermi/zsh-gcloud
+zini light reegnz/jq-zsh-plugin
+zini light nix-community/nix-zsh-completions
