@@ -20,7 +20,9 @@ zinit ice blockf atpull'zinit creinstall -q .'
 zinit light zsh-users/zsh-completions
 
 autoload -Uz compinit
+autoload -Uz bashcompinit
 compinit
+bashcompinit
 
 zinit light-mode for \
   hlissner/zsh-autopair \
