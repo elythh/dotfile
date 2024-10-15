@@ -34,7 +34,7 @@
       rounding = "6";
       drop_shadow = "true";
       shadow_range = "16";
-      "col.shadow" = "rgba(050505ff)";
+      # "col.shadow" = "rgba(050505ff)";
       shadow_render_power = "12";
       inactive_opacity = "0.94";
 
@@ -64,8 +64,8 @@
       border_size = "0";
       layout = "dwindle";
       resize_on_border = "true";
-      "col.active_border" = "rgba(88888888)";
-      "col.inactive_border" = "rgba(00000088)";
+      # "col.active_border" = "rgba(88888888)";
+      # "col.inactive_border" = "rgba(00000088)";
 
       allow_tearing = true;
     };

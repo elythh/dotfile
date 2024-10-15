@@ -27,7 +27,7 @@
       hyprlock.enable = true;
     };
     services = {
-      ags.enable = true;
+      ags.enable = false;
       cliphist.enable = true;
       hypridle.enable = true;
       hyprpaper.enable = true;

@@ -1,44 +1,48 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  inputs,
+  config,
+  ...
+}:
 {
   stylix = {
     enable = true;
-    base16Scheme = ./${config.theme}.yaml;
-    image = ../../../../home/shared/walls/${config.theme}.jpg;
-    polarity = "dark";
-    cursor = {
-      name = "Bibata-Modern-Ice";
-      package = pkgs.bibata-cursors;
-      size = 20;
-    };
-    opacity = {
-      popups = 1.0;
-    };
 
-    targets = {
-      nixvim.enable = true;
-      zellij.enable = true;
-      lazygit.enable = false;
-      hyprland.enable = false;
-      firefox.enable = false;
-      fzf.enable = false;
-      rofi.enable = true;
-      waybar.enable = false;
-      gtk.enable = true;
-      gtk.extraCss = with config.lib.stylix.colors; ''
-        @define-color accent_color #${base0D};
-        @define-color accent_bg_color #${base0D};
-      '';
+    # Edited catppuccin
+    base16Scheme = ./${config.theme}.yaml;
+
+    cursor = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
+      size = 24;
     };
 
     fonts = {
       monospace = {
-        name = "Iosevka Nerd Font";
-        package = pkgs.nerdfonts.override { fonts = [ "Iosevka" ]; };
+        package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
+        name = "JetBrains Mono Nerd Font";
       };
       sansSerif = {
-        name = "IBM Plex Sans";
-        package = pkgs.ibm-plex;
+        package = inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd;
+        name = "SFProDisplay Nerd Font";
+      };
+      serif = {
+        package = inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd;
+        name = "SFProDisplay Nerd Font";
+      };
+      emoji = {
+        package = pkgs.noto-fonts-emoji;
+        name = "Noto Color Emoji";
+      };
+      sizes = {
+        applications = 13;
+        desktop = 13;
+        popups = 13;
+        terminal = 13;
       };
     };
+
+    polarity = "dark";
+    image = ../../../../home/shared/walls/${config.theme}.jpg;
   };
 }

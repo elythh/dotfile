@@ -61,6 +61,11 @@
     # Hyprpaper, wallpaper manager for hyprland
     hyprpaper.url = "github:hyprwm/hyprpaper";
 
+    # hyprpanel
+    hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
+
+    apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
+
     # Spicetify, a spotify theming tool
     spicetify.url = "github:Gerg-L/spicetify-nix";
     spicetify.inputs.nixpkgs.follows = "nixpkgs";
